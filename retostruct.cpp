@@ -29,28 +29,29 @@ struct Elemento {
  * {parametro}: n Cantidad de elementos a generar
  * {retorno}:   Vector con los elementos generados
  */
-vector<Elemento> generarDatos(size_t n) {
+vector<Elemento> generarDatos(size_t n) {  //generador de datos aleatorios para cada tipo de dato
     random_device rd;        // Dispositivo de aleatoriedad hardware-based
     mt19937 gen(rd());       // Motor de generación Mersenne Twister
     uniform_int_distribution<int> dist_valor(1, 100);      // Distribución para el valor entero
     uniform_real_distribution<float> dist_extra(0.0f, 1.0f); // Distribución para el valor float
-    
-    vector<Elemento> datos(n); // Vector de n elementos
-    
+
+    vector<Elemento> datos(n); // Vector de n elementos n siendo el tamaño especificado
+
     // Llena cada elemento con valores aleatorios
     for (auto& elem : datos) {
         elem.valor = dist_valor(gen);    // Asigna valor entero aleatorio
         elem.extra = dist_extra(gen);    // Asigna valor float aleatorio
         snprintf(elem.info, 10, "ID%d", elem.valor); // Crea info basada en el valor
     }
-    return datos;
+    return datos; //Cadena con formato "ID" + valor ejemplo "ID42"
+
 }
 
 /**
  * Estructura para almacenar resultados de la suma por valor.
  * Incluye memoria utilizada para análisis de performance.
  */
-struct Resultados {
+struct Resultados {  //DONDE GUARDA TODA LA INFO DE LA OPERACION
     long long sumaValorInt;    // Acumulador para valores enteros
     double sumaValorFloat;     // Acumulador para valores flotantes
     size_t memoria_utilizada;  // Memoria usada durante la operación
@@ -61,7 +62,7 @@ struct Resultados {
  * {parametro}: datos Vector de elementos (se copia completamente)
  * {retorno}:   Estructura con los resultados y memoria usada
  */
-Resultados sumarPorValor(vector<Elemento> datos) {
+Resultados sumarPorValor(vector<Elemento> datos) {   //se hace una copia compelta del vector original llamado datos
     Resultados res;
     res.sumaValorInt = 0;
     res.sumaValorFloat = 0.0;
@@ -90,8 +91,7 @@ struct ResultadosReferencia {
  * {parametro}: datos Referencia al vector original
  * {parametro}: res Estructura donde se almacenan los resultados
  */
-void sumarPorReferencia(const vector<Elemento>& datos, ResultadosReferencia& res) {
-    res.sumaRefInt = 0;
+void sumarPorReferencia(const vector<Elemento>& datos, ResultadosReferencia& res) { // & es referencia al dato orgiignal o vector original, l que hhace es pasar la direccion de mmemoria del dato original pero y no veo esa direccion
     res.sumaRefFloat = 0.0;
     // Memoria es solo el tamaño de la referencia (puntero)
     res.memoria_utilizada = sizeof(datos);
@@ -147,8 +147,8 @@ void mostrarConsumoMemoria(size_t bytes) {
  * {retorno}:   Código de salida
  */
 int main(int argc, char* argv[]) {
-    // Tamaño por defecto del dataset (5 millones de elementos)
-    size_t N = 5'000'000;
+    // Tamaño por defecto del dataset (10 millones de elementos)
+    size_t N = 10'000'000;
     
     // Procesamiento de argumentos de línea de comandos
     if (argc > 1) {
